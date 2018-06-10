@@ -88,6 +88,11 @@ goto :EOF
 :Deployment
 echo Handling node.js deployment.
 
+:: 0. Create empty lib\app.js to make KuduSync happy
+:: see https://github.com/projectkudu/kudu/issues/1753
+call :ExecuteCmd mkdir "%DEPLOYMENT_SOURCE%\lib"
+call :ExecuteCmd copy NUL "%DEPLOYMENT_SOURCE%\lib\app.js"
+
 :: 1. Select node version
 call :SelectNodeVersion
 
@@ -100,7 +105,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\package.json" (
 )
 
 :: 3. Angular Prod Build
-IF EXIST "%DEPLOYMENT_SOURCE%/.angular-cli.json" (
+IF EXIST "%DEPLOYMENT_SOURCE%/angular.json" (
 echo Building App in %DEPLOYMENT_SOURCE%…
 pushd "%DEPLOYMENT_SOURCE%"
 call :ExecuteCmd !NPM_CMD! run build
