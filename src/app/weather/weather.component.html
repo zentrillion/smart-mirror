@@ -1,0 +1,4 @@
+<h2>Wettervorhersage</h2>
+<p *ngFor="let weather of weather.list"> 
+    Zeitstempel: {{ weather.dt * 1000 | date:'yyyy-MM-dd HH:mm:ss Z' }}  ||  Temperatur: {{weather.main.temp}} Grad Celsius  ||  {{weather.weather[0].description}}
+</p>
