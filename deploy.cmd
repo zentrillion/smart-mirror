@@ -105,7 +105,7 @@ IF EXIST "%DEPLOYMENT_SOURCE%\package.json" (
 )
 
 :: 3. Angular Prod Build
-IF EXIST "%DEPLOYMENT_SOURCE%/angular.json" (
+IF EXIST "%DEPLOYMENT_SOURCE%\angular.json" (
 echo Building App in %DEPLOYMENT_SOURCE%…
 pushd "%DEPLOYMENT_SOURCE%"
 call :ExecuteCmd !NPM_CMD! run build
@@ -117,9 +117,42 @@ popd
 
 :: 4. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%/dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
+  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%\dist" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
+
+:: 5. Javascript files copy
+mkdir "%DEPLOYMENT_TARGET%\javascripts"
+mkdir "%DEPLOYMENT_TARGET%\stylesheets"
+mkdir "%DEPLOYMENT_TARGET%\IoThub"
+xcopy "%DEPLOYMENT_SOURCE%\src\javascripts" "%DEPLOYMENT_TARGET%\javascripts" /S /Y
+xcopy "%DEPLOYMENT_SOURCE%\src\stylesheets" "%DEPLOYMENT_TARGET%\stylesheets" /S /Y
+xcopy "%DEPLOYMENT_SOURCE%\IoThub" "%DEPLOYMENT_TARGET%\IoThub" /S /Y
+
+xcopy "%DEPLOYMENT_SOURCE%\server.js" "%DEPLOYMENT_TARGET%" /Y
+xcopy "%DEPLOYMENT_SOURCE%\package.js.json" "%DEPLOYMENT_TARGET%/package.json" /Y
+
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  pushd "%DEPLOYMENT_TARGET%"
+  call :ExecuteCmd !NPM_CMD! install 
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
+
+:: mkdir .\wwwroot\javascripts
+:: mkdir .\wwwroot\stylesheets 
+:: mkdir .\wwwroot\IoThub 
+:: xcopy .\repository\src\javascripts .\wwwroot\javascripts /S /Y 
+:: xcopy .\repository\src\stylesheets .\wwwroot\stylesheets /S /Y 
+:: xcopy .\repository\IoThub .\wwwroot\IoThub /S /Y 
+:: xcopy .\repository\server.js .\wwwroot
+
+:: mkdir .\wwwroot\node_modules
+:: xcopy .\repository\node_modules .\wwwroot\node_modules  /S /Y 
+:: mklink /D .\repository\node_modules .\wwwroot\node_modules
+
+:: xcopy .\repository\package.json .\wwwroot\ /Y
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
