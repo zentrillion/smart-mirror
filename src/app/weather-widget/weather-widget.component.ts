@@ -23,7 +23,7 @@ export class WeatherWidgetComponent {
     backgroundColor: '#000000',
     color: '#ffffff',
     width: '200px',
-    height: '210px',
+    height: '250px',
     showWind: true,
     showDetails: false,
     showForecast: false,
