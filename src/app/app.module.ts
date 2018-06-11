@@ -40,7 +40,8 @@ registerLocaleData(lcoaleDeAt);
     BrowserModule,
     AppRoutingModule,
     AngularWeatherWidgetModule.forRoot({
-      key: 'b803f9323ae2c1f50e47dab83961ab94',
+      /*key: 'b803f9323ae2c1f50e47dab83961ab94',*/
+      key: '8caf261889f92079cd9fd697ee90d47f',
       name: WeatherApiName.OPEN_WEATHER_MAP,
       baseUrl: 'http://api.openweathermap.org/data/2.5'
     }),
