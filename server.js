@@ -15,7 +15,12 @@ app.use(function (req, res/*, next*/) {
 console.log('Test01');
 
 const server = http.createServer(app);
+
+console.log('server:' + server);
+
 const wss = new WebSocket.Server({ server });
+
+console.log('server:' + server);
 
 // Broadcast to all.
 wss.broadcast = function broadcast(data) {

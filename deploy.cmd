@@ -122,22 +122,22 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 )
 
 :: 5. Javascript files copy
-mkdir "%DEPLOYMENT_TARGET%\javascripts"
-mkdir "%DEPLOYMENT_TARGET%\stylesheets"
-mkdir "%DEPLOYMENT_TARGET%\IoThub"
-xcopy "%DEPLOYMENT_SOURCE%\src\javascripts" "%DEPLOYMENT_TARGET%\javascripts" /S /Y
-xcopy "%DEPLOYMENT_SOURCE%\src\stylesheets" "%DEPLOYMENT_TARGET%\stylesheets" /S /Y
-xcopy "%DEPLOYMENT_SOURCE%\IoThub" "%DEPLOYMENT_TARGET%\IoThub" /S /Y
+:: mkdir "%DEPLOYMENT_TARGET%\javascripts"
+:: mkdir "%DEPLOYMENT_TARGET%\stylesheets"
+:: mkdir "%DEPLOYMENT_TARGET%\IoThub"
+:: xcopy "%DEPLOYMENT_SOURCE%\src\javascripts" "%DEPLOYMENT_TARGET%\javascripts" /S /Y
+:: xcopy "%DEPLOYMENT_SOURCE%\src\stylesheets" "%DEPLOYMENT_TARGET%\stylesheets" /S /Y
+:: xcopy "%DEPLOYMENT_SOURCE%\IoThub" "%DEPLOYMENT_TARGET%\IoThub" /S /Y
 
-xcopy "%DEPLOYMENT_SOURCE%\server.js" "%DEPLOYMENT_TARGET%" /Y
-xcopy "%DEPLOYMENT_SOURCE%\package.js.json" "%DEPLOYMENT_TARGET%/package.json" /Y
+:: xcopy "%DEPLOYMENT_SOURCE%\server.js" "%DEPLOYMENT_TARGET%" /Y
+:: xcopy "%DEPLOYMENT_SOURCE%\package.js.json" "%DEPLOYMENT_TARGET%/package.json" /Y
 
-IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
-  pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd !NPM_CMD! install 
-  IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
+:: IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  :: pushd "%DEPLOYMENT_TARGET%"
+  :: call :ExecuteCmd !NPM_CMD! install 
+  :: IF !ERRORLEVEL! NEQ 0 goto error
+  :: popd
+:: )
 
 :: mkdir .\wwwroot\javascripts
 :: mkdir .\wwwroot\stylesheets 
