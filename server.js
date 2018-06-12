@@ -15,8 +15,6 @@ app.use(function (req, res/*, next*/) {
 console.log('Test01');
 
 const server = http.createServer(app);
-console.log('Server:' + server);
-
 const wss = new WebSocket.Server({ server });
 
 // Broadcast to all.
@@ -46,7 +44,6 @@ iotHubReader.startReadMessage(function (obj, date) {
     console.log(date);
     date = date || Date.now()
     wss.broadcast(JSON.stringify(Object.assign(obj, { time: moment.utc(date).format('YYYY:MM:DD[T]hh:mm:ss') })));
-    console.log('Test09');
   } catch (err) {
     console.log(obj);
     console.error(err);
